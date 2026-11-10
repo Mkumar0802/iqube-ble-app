@@ -8,11 +8,27 @@ It reads battery %, range (DTE), odometer and ignition from the scooter, and
 sends calls, messages, music, weather and Google Maps turn-by-turn directions
 to the iQube's cluster. Hobby project, tested on one scooter.
 
-> **Disclaimer.** This project is not affiliated with, endorsed by or
-> supported by TVS Motor Company. "TVS", "iQube" and "TVS Connect" are
-> trademarks of their owners. The app sends data to a real vehicle: use it
-> at your own risk, and never interact with the phone while riding. Provided
-> as-is, without warranty (see [LICENSE](LICENSE)).
+> [!WARNING]
+> **For educational purposes only. Non-profit, no commercial use.**
+>
+> - Unofficial: not affiliated with, endorsed by or supported by TVS Motor
+>   Company. "TVS", "iQube" and "TVS Connect" are trademarks of their owners.
+> - Experimental: the app sends data to a real vehicle. Use it only with your
+>   own vehicle, entirely at your own risk. It may affect your vehicle
+>   warranty.
+> - Never use your phone while riding.
+> - Provided as-is, without any warranty. The author accepts no liability
+>   for any damage, injury or loss.
+>
+> By using this software you agree to the [Terms of Use](TERMS.md) and the
+> [license](LICENSE).
+
+## License
+
+[PolyForm Noncommercial License 1.0.0](LICENSE): free to use, study, change
+and share for personal, educational and other non-commercial purposes.
+Commercial use is not permitted. Because it bans commercial use, this is a
+"source-available" license rather than an OSI "open source" one.
 
 ## Contributing
 
