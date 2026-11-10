@@ -1,0 +1,33 @@
+name: iqube_ble_app
+description: >
+  Personal BLE companion app for your own TVS iQube EV.
+  Scans, connects, subscribes to notifications and shows raw + parsed
+  telemetry bytes. Service/Characteristic UUIDs are NOT hardcoded by TVS
+  in the official app (they are fetched from TVS's backend after login +
+  vehicle pairing), so you must discover your own vehicle's real UUIDs
+  first — either via Android Bluetooth HCI snoop log capture, or by using
+  the in-app Generic BLE Explorer screen included here, which lists every
+  service/characteristic your iQube advertises.
+publish_to: "none"
+version: 0.1.0
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_blue_plus: ^1.32.12
+  flutter_map: ^8.3.2
+  geolocator: ^14.1.2
+  latlong2: ^0.10.1
+  permission_handler: ^11.3.1
+  shared_preferences: ^2.5.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
