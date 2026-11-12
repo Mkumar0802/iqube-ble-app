@@ -136,6 +136,22 @@ class BatteryHealth extends ChangeNotifier {
   /// Months, oldest first.
   List<BatteryMonth> get months => monthsFrom(_days);
 
+  /// Injects realistic sample data for Demo / Preview mode.
+  void injectDemoData() {
+    if (_days.isNotEmpty) return;
+    _days['2026-07-15'] = {'km': 310.0, 'used': 302, 'charged': 310, 'dteSum': 102.0, 'dteCount': 1};
+    _days['2026-08-15'] = {'km': 380.0, 'used': 378, 'charged': 380, 'dteSum': 100.5, 'dteCount': 1};
+    _days['2026-09-15'] = {'km': 420.0, 'used': 425, 'charged': 420, 'dteSum': 99.0, 'dteCount': 1};
+    _days['2026-10-15'] = {'km': 390.0, 'used': 400, 'charged': 395, 'dteSum': 98.2, 'dteCount': 1};
+    _days['2026-11-10'] = {'km': 280.0, 'used': 290, 'charged': 285, 'dteSum': 97.5, 'dteCount': 1};
+    notifyListeners();
+  }
+
+  void clearDemoData() {
+    _days.clear();
+    notifyListeners();
+  }
+
   @visibleForTesting
   static List<BatteryMonth> monthsFrom(Map<String, Map<String, num>> days) {
     final byMonth = <String, BatteryMonth>{};

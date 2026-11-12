@@ -28,6 +28,30 @@ class ChargeTracker extends ChangeNotifier {
 
   List<(DateTime, int)> get samples => List.unmodifiable(_samples);
 
+  /// Injects charging samples for Demo / Preview mode.
+  void injectDemoSamples() {
+    if (_samples.isNotEmpty) return;
+    final now = DateTime.now();
+    _samples.addAll([
+      (now.subtract(const Duration(minutes: 105)), 38),
+      (now.subtract(const Duration(minutes: 90)), 44),
+      (now.subtract(const Duration(minutes: 75)), 51),
+      (now.subtract(const Duration(minutes: 60)), 58),
+      (now.subtract(const Duration(minutes: 45)), 64),
+      (now.subtract(const Duration(minutes: 30)), 70),
+      (now.subtract(const Duration(minutes: 15)), 76),
+      (now.subtract(const Duration(minutes: 2)), 82),
+    ]);
+    learnedRatePctPerHour = 22.0;
+    lastFullChargeAt = now.subtract(const Duration(days: 1, hours: 4));
+    notifyListeners();
+  }
+
+  void clearDemoSamples() {
+    _samples.clear();
+    notifyListeners();
+  }
+
   void addSample(int percent, DateTime at) {
     if (_samples.isNotEmpty && _samples.last.$2 == percent) return;
     _samples.add((at, percent));

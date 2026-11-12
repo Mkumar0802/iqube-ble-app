@@ -82,7 +82,13 @@ class RideTracker extends ChangeNotifier {
         Geolocator.distanceBetween(_route.last[0], _route.last[1],
                 p.latitude, p.longitude) >
             20) {
-      _route.add([p.latitude, p.longitude]);
+      _route.add([
+        p.latitude,
+        p.longitude,
+        speedKmh,
+        p.timestamp.millisecondsSinceEpoch.toDouble(),
+        p.altitude,
+      ]);
     }
     notifyListeners();
   }

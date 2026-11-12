@@ -1,34 +1,8 @@
 import 'package:flutter/material.dart';
 
-const tvsBlue = Color(0xFF0B3D91);
-const tvsRed = Color(0xFFE3262F);
-const batteryGreen = Color(0xFF2EB82E);
+import '../theme/app_theme.dart';
 
-ThemeData buildTheme(Brightness brightness) {
-  final scheme = ColorScheme.fromSeed(
-    seedColor: tvsBlue,
-    brightness: brightness,
-    secondary: tvsRed,
-  );
-  return ThemeData(
-    useMaterial3: true,
-    colorScheme: scheme,
-    scaffoldBackgroundColor:
-        brightness == Brightness.light ? const Color(0xFFF4F6FB) : null,
-    cardTheme: CardThemeData(
-      elevation: 0,
-      margin: EdgeInsets.zero,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-    ),
-  );
-}
-
-/// Colour for a battery level: red when low, amber in the middle, green.
-Color batteryColor(int percent) => percent <= 15
-    ? tvsRed
-    : percent <= 35
-        ? const Color(0xFFF2A516)
-        : batteryGreen;
+export '../theme/app_theme.dart';
 
 String formatDuration(Duration d) {
   final h = d.inHours;
@@ -88,26 +62,109 @@ class StatTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final c = AppColors.of(context);
     return Padding(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 22, color: theme.colorScheme.primary),
-          const SizedBox(height: 8),
-          Text(label,
-              style: theme.textTheme.bodySmall
-                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
-          const SizedBox(height: 2),
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: c.brand.withValues(alpha: 0.12),
+              borderRadius: AppShape.inner,
+            ),
+            child: Icon(icon, size: 18, color: c.brand),
+          ),
+          const SizedBox(height: 10),
+          Text(label.toUpperCase(),
+              style: AppText.overline.copyWith(color: c.onSurfaceMuted)),
+          const SizedBox(height: 4),
           Text.rich(TextSpan(children: [
             TextSpan(
                 text: value,
-                style: theme.textTheme.titleLarge
-                    ?.copyWith(fontWeight: FontWeight.w600)),
+                style: AppText.metric.copyWith(color: c.onSurface)),
             if (unit != null)
-              TextSpan(text: ' $unit', style: theme.textTheme.bodySmall),
+              TextSpan(
+                  text: ' $unit',
+                  style: AppText.unit.copyWith(color: c.onSurfaceMuted)),
           ])),
+        ],
+      ),
+    );
+  }
+}
+
+/// A version of [StatTile] that counts up from 0 to its numeric value on first appear.
+/// Falls back to static text if the value cannot be parsed as a number.
+class AnimatedStatTile extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final String value;
+  final String? unit;
+
+  const AnimatedStatTile({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.value,
+    this.unit,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final c = AppColors.of(context);
+    final motion = AppMotion.of(context);
+    final parsed = double.tryParse(value);
+
+    return Padding(
+      padding: const EdgeInsets.all(14),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: c.brand.withValues(alpha: 0.12),
+              borderRadius: AppShape.inner,
+            ),
+            child: Icon(icon, size: 18, color: c.brand),
+          ),
+          const SizedBox(height: 10),
+          Text(label.toUpperCase(),
+              style: AppText.overline.copyWith(color: c.onSurfaceMuted)),
+          const SizedBox(height: 4),
+          if (parsed != null)
+            TweenAnimationBuilder<double>(
+              tween: Tween(begin: 0, end: parsed),
+              duration: resolveMotion(context, motion.fill),
+              curve: motion.emphasized,
+              builder: (context, v, _) {
+                final dotIndex = value.indexOf('.');
+                final decimals =
+                    dotIndex >= 0 ? value.length - dotIndex - 1 : 0;
+                final formatted = v.toStringAsFixed(decimals);
+                return Text.rich(TextSpan(children: [
+                  TextSpan(
+                      text: formatted,
+                      style: AppText.metric.copyWith(color: c.onSurface)),
+                  if (unit != null)
+                    TextSpan(
+                        text: ' $unit',
+                        style: AppText.unit.copyWith(color: c.onSurfaceMuted)),
+                ]));
+              },
+            )
+          else
+            Text.rich(TextSpan(children: [
+              TextSpan(
+                  text: value,
+                  style: AppText.metric.copyWith(color: c.onSurface)),
+              if (unit != null)
+                TextSpan(
+                    text: ' $unit',
+                    style: AppText.unit.copyWith(color: c.onSurfaceMuted)),
+            ])),
         ],
       ),
     );
@@ -120,11 +177,9 @@ class SectionTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.fromLTRB(4, 20, 4, 8),
-        child: Text(text,
-            style: Theme.of(context)
-                .textTheme
-                .titleMedium
-                ?.copyWith(fontWeight: FontWeight.w600)),
+        padding: const EdgeInsetsDirectional.fromSTEB(6, 24, 6, 10),
+        child: Text(text.toUpperCase(),
+            style: AppText.overline
+                .copyWith(color: AppColors.of(context).onSurfaceMuted)),
       );
 }

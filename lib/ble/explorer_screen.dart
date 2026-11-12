@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
+import '../theme/app_theme.dart';
 import 'frame_parser.dart';
 
 /// Generic BLE explorer — needs NO prior knowledge of your vehicle's
@@ -181,7 +182,7 @@ class _BleExplorerScreenState extends State<BleExplorerScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
           child: Text(
             '[${entry.time.toIso8601String().substring(11, 19)}] ${entry.message}',
-            style: const TextStyle(fontFamily: 'monospace', fontSize: 12),
+            style: AppText.mono,
           ),
         );
       },

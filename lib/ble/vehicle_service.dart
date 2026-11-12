@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../services/app_settings.dart';
@@ -199,6 +200,9 @@ class VehicleService extends ChangeNotifier {
     final ignition = FrameParser.ignitionOn(parsed);
     if (ignition != null && ignition != ignitionOn) {
       ignitionOn = ignition;
+      if (!ignition) {
+        _recordParkedLocation();
+      }
       notifyListeners();
     }
     dteKm = FrameParser.dteKm(parsed) ?? dteKm;
@@ -216,8 +220,36 @@ class VehicleService extends ChangeNotifier {
     if (previous == null || !listEquals(previous, value)) notifyListeners();
   }
 
+  Future<void> _recordParkedLocation() async {
+    try {
+      final perm = await Geolocator.checkPermission();
+      if (perm == LocationPermission.always ||
+          perm == LocationPermission.whileInUse) {
+        final pos = await Geolocator.getLastKnownPosition() ??
+            await Geolocator.getCurrentPosition(
+                locationSettings:
+                    const LocationSettings(timeLimit: Duration(seconds: 4)));
+        await AppSettings.instance.saveParkedLocation(pos.latitude, pos.longitude);
+      }
+    } catch (_) {}
+  }
+
+  int get reconnectCount => _failedReconnects;
+
+  Future<int?> readRssi() async {
+    try {
+      final dev = _device;
+      if (dev != null && isConnected) {
+        final rssi = await dev.readRssi();
+        return rssi;
+      }
+    } catch (_) {}
+    return null;
+  }
+
   void _onDisconnected() {
     if (link == VehicleLink.disconnected) return;
+    _recordParkedLocation();
     _cleanup().then((_) => _scheduleReconnect());
   }
 

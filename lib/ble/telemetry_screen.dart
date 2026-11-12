@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../theme/app_theme.dart';
 import 'frame_parser.dart';
 import 'vehicle_service.dart';
 
@@ -14,7 +15,7 @@ class TelemetryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const mono = TextStyle(fontFamily: 'monospace', fontSize: 12);
+    const mono = AppText.mono;
     return Scaffold(
       appBar: AppBar(title: const Text('Raw scooter data')),
       body: ListenableBuilder(
