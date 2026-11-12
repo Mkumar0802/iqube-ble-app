@@ -33,7 +33,7 @@
     <uses-feature android:name="android.hardware.bluetooth_le" android:required="true" />
 
     <application
-        android:label="My iQube BLE"
+        android:label="Mtvs Connect"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

@@ -3,7 +3,6 @@ package com.example.iqube_ble_app
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.view.Surface
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 
@@ -35,13 +34,6 @@ class MainActivity : FlutterActivity() {
      * supported by the phone's hardware (90Hz, 120Hz ProMotion, 144Hz).
      */
     private fun enableMaxRefreshRate() {
-        // Android 11 (API 30)+: Uncap frame rate for seamless VSYNC synchronization
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            try {
-                window.setFrameRate(0f, Surface.FRAME_RATE_COMPATIBILITY_DEFAULT)
-            } catch (_: Exception) {}
-        }
-
         // Android 6 (API 23)+: Set the preferred display mode to the highest refresh rate mode
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             try {
@@ -58,6 +50,7 @@ class MainActivity : FlutterActivity() {
                     if (maxMode != null) {
                         val params = window.attributes
                         params.preferredDisplayModeId = maxMode.modeId
+                        params.preferredRefreshRate = maxMode.refreshRate
                         window.attributes = params
                     }
                 }

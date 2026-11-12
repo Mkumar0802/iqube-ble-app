@@ -600,7 +600,7 @@ class _RideDetailScreenState extends State<RideDetailScreen> {
                             TileLayer(
                               urlTemplate:
                                   'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                              userAgentPackageName: 'com.example.iqube_ble_app',
+                              userAgentPackageName: 'muthumar.iqubtvs.com',
                             ),
                             PolylineLayer(polylines: polylines),
                             MarkerLayer(markers: [

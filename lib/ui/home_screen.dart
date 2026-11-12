@@ -285,7 +285,7 @@ class _HeaderState extends State<_Header>
               ),
               const SizedBox(height: 2),
               Text(
-                'My iQube',
+                'Mtvs Connect',
                 style: GoogleFonts.outfit(
                   fontSize: 26,
                   fontWeight: FontWeight.w800,
@@ -1390,7 +1390,7 @@ class _WhereIsMyScooterCardState extends State<_WhereIsMyScooterCard> {
                       TileLayer(
                         urlTemplate:
                             'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                        userAgentPackageName: 'com.example.iqube_ble_app',
+                        userAgentPackageName: 'muthumar.iqubtvs.com',
                       ),
                       if (_userPos != null)
                         PolylineLayer(
@@ -1618,7 +1618,7 @@ class _RangeRingCardState extends State<_RangeRingCard> {
                       TileLayer(
                         urlTemplate:
                             'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                        userAgentPackageName: 'com.example.iqube_ble_app',
+                        userAgentPackageName: 'muthumar.iqubtvs.com',
                       ),
                       CircleLayer(
                         circles: [

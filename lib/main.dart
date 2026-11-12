@@ -122,7 +122,7 @@ class IQubeAppState extends State<IQubeApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'My iQube',
+      title: 'Mtvs Connect',
       debugShowCheckedModeBanner: false,
       theme: buildAppTheme(Brightness.light),
       darkTheme: buildAppTheme(Brightness.dark),
